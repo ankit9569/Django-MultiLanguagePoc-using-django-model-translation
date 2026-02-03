@@ -9,6 +9,9 @@ export default {
   filterGenre: 'வகை மூலம் வடிகட்டவும்',
   filterAuthor: 'ஆசிரியர் மூலம் வடிகட்டவும்',
   availableOnly: 'கிடைக்கும் புத்தகங்கள் மட்டும்',
+  currentLanguage: 'தற்போதைய மொழி',
+  refresh: 'தகவலை புதுப்பிக்கவும்',
+  refreshing: 'தகவல் புதுப்பிக்கப்படுகிறது...',
 
   // Table columns
   columns: {

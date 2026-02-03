@@ -1,0 +1,133 @@
+#!/usr/bin/env python
+"""
+Script to create additional sample data for the Library Management System
+"""
+import os
+import django
+from datetime import date
+
+# Setup Django
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'config.settings')
+django.setup()
+
+from apps.library.models import Author, Book
+
+
+def create_more_sample_data():
+    print("Creating additional sample data...")
+
+    # New Authors (different from existing ones)
+    authors_data = [
+        {
+            'first_name': 'Paulo',
+            'last_name': 'Coelho',
+            'email': 'paulo.coelho@example.com',
+            'bio': 'Brazilian lyricist and novelist.',
+            'birth_date': date(1947, 8, 24)
+        },
+        {
+            'first_name': 'Dan',
+            'last_name': 'Brown',
+            'email': 'dan.brown@example.com',
+            'bio': 'American author best known for thriller novels.',
+            'birth_date': date(1964, 6, 22)
+        },
+        {
+            'first_name': 'Yuval',
+            'last_name': 'Harari',
+            'email': 'yuval.harari@example.com',
+            'bio': 'Israeli public intellectual, historian and professor.',
+            'birth_date': date(1976, 2, 24)
+        }
+    ]
+
+    authors = []
+    for data in authors_data:
+        author, created = Author.objects.get_or_create(
+            email=data['email'],
+            defaults=data
+        )
+        authors.append(author)
+
+        if created:
+            print(f"Created author: {author.full_name}")
+        else:
+            print(f"Author already exists: {author.full_name}")
+
+    # New Books
+    books_data = [
+        {
+            'title': 'The Alchemist',
+            'author': authors[0],
+            'isbn': '9780061122415',
+            'genre': 'fiction',
+            'publication_date': date(1988, 1, 1),
+            'pages': 208,
+            'price': 11.49,
+            'description': 'A philosophical novel about following your dreams.',
+            'is_available': True
+        },
+        {
+            'title': 'Brida',
+            'author': authors[0],
+            'isbn': '9780061122095',
+            'genre': 'fiction',
+            'publication_date': date(1990, 1, 1),
+            'pages': 256,
+            'price': 10.99,
+            'description': 'A novel about a young Irish woman’s spiritual journey.',
+            'is_available': False
+        },
+        {
+            'title': 'The Da Vinci Code',
+            'author': authors[1],
+            'isbn': '9780307474278',
+            'genre': 'mystery',
+            'publication_date': date(2003, 3, 18),
+            'pages': 489,
+            'price': 14.49,
+            'description': 'A mystery thriller involving secret societies.',
+            'is_available': True
+        },
+        {
+            'title': 'Inferno',
+            'author': authors[1],
+            'isbn': '9780385537858',
+            'genre': 'mystery',
+            'publication_date': date(2013, 5, 14),
+            'pages': 480,
+            'price': 15.99,
+            'description': 'A thriller inspired by Dante’s Inferno.',
+            'is_available': True
+        },
+        {
+            'title': 'Sapiens: A Brief History of Humankind',
+            'author': authors[2],
+            'isbn': '9780062316097',
+            'genre': 'non_fiction',
+            'publication_date': date(2011, 1, 1),
+            'pages': 443,
+            'price': 18.99,
+            'description': 'An exploration of human history and evolution.',
+            'is_available': True
+        }
+    ]
+
+    for data in books_data:
+        book, created = Book.objects.get_or_create(
+            isbn=data['isbn'],
+            defaults=data
+        )
+
+        if created:
+            print(f"Created book: {book.title}")
+        else:
+            print(f"Book already exists: {book.title}")
+
+    print("\nAdditional sample data created successfully!")
+    print(f"Total Authors: {Author.objects.count()}")
+    print(f"Total Books: {Book.objects.count()}")
+
+
+if __name__ == '__main__':
+    create_more_sample_data()

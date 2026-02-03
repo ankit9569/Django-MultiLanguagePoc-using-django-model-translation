@@ -240,9 +240,20 @@
 
 <script>
 import { api } from 'src/boot/axios'
+import { useI18n } from 'vue-i18n'
+import { watch } from 'vue'
+import { logTranslationData, getLanguageLabel } from 'src/utils/language'
 
 export default {
   name: 'BooksPage',
+
+  setup() {
+    const { locale } = useI18n()
+    
+    return {
+      locale
+    }
+  },
 
   data () {
     return {
@@ -475,6 +486,11 @@ export default {
 
   mounted () {
     this.loadData()
+    
+    // Watch for language changes and reload data
+    watch(() => this.locale, () => {
+      this.loadData()
+    })
   }
 }
 </script>

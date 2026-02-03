@@ -9,6 +9,9 @@ export default {
   filterGenre: 'Filter by Genre',
   filterAuthor: 'Filter by Author',
   availableOnly: 'Available Only',
+  currentLanguage: 'Current Language',
+  refresh: 'Refresh Data',
+  refreshing: 'Refreshing data...',
 
   // Table columns
   columns: {

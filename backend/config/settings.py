@@ -20,6 +20,7 @@ DJANGO_APPS = [
 ]
 
 THIRD_PARTY_APPS = [
+    'modeltranslation',  # Must be before apps that use it
     'rest_framework',
     'django_filters',
     'corsheaders',
@@ -35,6 +36,8 @@ MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.locale.LocaleMiddleware',  # Enables translation.activate()
+    'config.middleware.AcceptLanguageMiddleware',  # API: set language from Accept-Language (overrides session)
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -87,10 +90,23 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 # Internationalization
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'en'
 TIME_ZONE = 'UTC'
 USE_I18N = True
 USE_TZ = True
+
+# Supported languages for API and modeltranslation (must match frontend: en, hi, ta)
+LANGUAGES = [
+    ('en', 'English'),
+    ('hi', 'Hindi'),
+    ('ta', 'Tamil'),
+    
+]
+
+# django-modeltranslation: languages and fallback (APIs never return empty; fallback to en)
+MODELTRANSLATION_LANGUAGES = ('en', 'hi', 'ta')
+MODELTRANSLATION_DEFAULT_LANGUAGE = 'en'
+MODELTRANSLATION_FALLBACK_LANGUAGES = ('en', 'hi', 'ta')  # Try en first, then hi, then ta
 
 # Static files
 STATIC_URL = 'static/'
@@ -128,3 +144,7 @@ CORS_ALLOWED_ORIGINS = [
 ]
 
 CORS_ALLOW_CREDENTIALS = True
+
+# Auto-translate (deep-translator) on save: fill *_hi and *_ta from *_en when empty.
+# Set to False in tests or if you don't want external API calls.
+AUTO_TRANSLATE_ENABLED = config('AUTO_TRANSLATE_ENABLED', default=True, cast=bool)

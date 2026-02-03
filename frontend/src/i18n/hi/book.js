@@ -9,6 +9,9 @@ export default {
   filterGenre: 'शैली से फ़िल्टर करें',
   filterAuthor: 'लेखक से फ़िल्टर करें',
   availableOnly: 'केवल उपलब्ध',
+  currentLanguage: 'वर्तमान भाषा',
+  refresh: 'डेटा रीफ्रेश करें',
+  refreshing: 'डेटा रीफ्रेश हो रहा है...',
 
   // Table columns
   columns: {
